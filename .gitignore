@@ -1,1 +1,4 @@
-kolmogorov_distance
+diff
+tests
+.*vis*
+

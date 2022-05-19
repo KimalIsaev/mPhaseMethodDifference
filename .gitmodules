@@ -1,0 +1,9 @@
+[submodule "CommuneOrbitAlgorithmForMPhase"]
+	path = CommuneOrbitAlgorithmForMPhase
+	url = https://github.com/KimalIsaev/CommuneOrbitAlgorithmForMPhase
+[submodule "mPhaseImitationScripts"]
+	path = mPhaseImitationScripts
+	url = https://github.com/KimalIsaev/mPhaseImitationScripts
+[submodule "mPhaseImitation"]
+	path = mPhaseImitation
+	url = https://github.com/KimalIsaev/mPhaseImitation

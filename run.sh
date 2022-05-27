@@ -24,7 +24,7 @@ im_path_file=$(mktemp)
 im_max_orbit_size=$(mktemp)
 to_compare_file=$(mktemp)
 
-im_n=999999
+im_n=9999999
 test=$1
 sigma=$2
 
@@ -34,7 +34,7 @@ tmp_test_dir=$parent_dir/'temp_tests'
 mkdir -p $tmp_test_dir
 test_file_for_alg=$tmp_test_dir/$test_base'.csv'
 
-echo $($im_run $im_exe $draw_py $sigma $im_n $test) > $im_name_file
+$im_run $im_exe $draw_py $sigma $im_n $test > $im_name_file
 sed 's,^,'$im_p_dir/',; s,$,.txt,' $im_name_file > $im_path_file
 while read im_name
 do
@@ -42,7 +42,7 @@ do
 done < $im_path_file
 paste -d' ' $im_max_orbit_size $test > $test_file_for_alg
 
-echo $($alg_run $alg_py $draw_py $sigma $test_file_for_alg) > $alg_name_file
+$alg_run $alg_py $draw_py $sigma $test_file_for_alg > $alg_name_file
 sed 's,^,'$alg_p_dir/',; s,$,.txt,' $alg_name_file > $alg_path_file
 paste -d' ' $alg_path_file $im_path_file > $to_compare_file
 

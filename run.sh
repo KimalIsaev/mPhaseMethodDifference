@@ -1,12 +1,15 @@
 parent_dir=$(dirname $0)
-diff_dir=$parent_dir/"diff"
-mkdir -p $diff_dir
+k_diff_dir=$parent_dir/"k_diff"
+e_diff_dir=$parent_dir/"e_diff"
+mkdir -p $k_diff_dir
+mkdir -p $e_diff_dir
 
 alg_dir=$parent_dir/"CommuneOrbitAlgorithmForMPhase"
 im_dir=$parent_dir/"mPhaseImitationScripts"
 im_exe=$parent_dir/"mPhaseImitation/mPhaseImitation.exe"
 draw_py=$parent_dir/"CommuneOrbitAlgorithmForMPhase/draw.py"
 kolmogorov_py=$parent_dir/"mPhaseImitationScripts/kolmogorov_diff.py"
+euclid_py=$parent_dir/"mPhaseImitationScripts/euclid_diff.py"
 
 alg_run=$alg_dir/"run.sh"
 alg_py=$alg_dir/"algorithm_for_m_phase.py"
@@ -24,9 +27,9 @@ im_path_file=$(mktemp)
 im_max_orbit_size=$(mktemp)
 to_compare_file=$(mktemp)
 
-im_n=9999999
-test=$1
+im_n=$1
 sigma=$2
+test=$3
 
 test_base=$(basename $test .csv)
 test_dir=$(dirname $test)
@@ -49,9 +52,19 @@ paste -d' ' $alg_path_file $im_path_file > $to_compare_file
 i=0
 while read line
 do
-	temp_name=$diff_dir/$test_base'_'$i'.png'
+	temp_name=$k_diff_dir/$test_base'_'$i'.png'
 	diff=$(python3 $kolmogorov_py $line $temp_name | tr -d \n) 
-	true_name=$diff_dir/$test_base'_'$i'_'$diff'.png'
+	true_name=$k_diff_dir/$test_base'_'$i'_'$diff'.png'
+	mv $temp_name $true_name
+	export i=$(($i+1))
+done < $to_compare_file
+
+i=0
+while read line
+do
+	temp_name=$e_diff_dir/$test_base'_'$i'.png'
+	diff=$(python3 $euclid_py $line $temp_name | tr -d \n) 
+	true_name=$e_diff_dir/$test_base'_'$i'_'$diff'.png'
 	mv $temp_name $true_name
 	export i=$(($i+1))
 done < $to_compare_file
